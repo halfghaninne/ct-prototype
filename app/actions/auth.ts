@@ -1,5 +1,29 @@
 import { SignupFormSchema, FormState } from '@/app/lib/definitions'
 import bcrypt from 'bcryptjs'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+const supabase = createClient(supabaseUrl!, supabaseKey!)
+// ---cut---
+async function signUpNewUser(email:string, password:string) {
+  await supabase.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      emailRedirectTo: 'https://example.com/welcome',
+    },
+  })
+  // const { data, error } = await supabase.auth.signUp({
+  //   email: email,
+  //   password: password,
+  //   options: {
+  //     emailRedirectTo: 'https://example.com/welcome',
+  //   },
+  // })
+  // return {data, error}
+}
  
 export async function signup(state: FormState, formData: FormData) {
   // Validate form fields
@@ -22,14 +46,9 @@ export async function signup(state: FormState, formData: FormData) {
   const hashedPassword = await bcrypt.hash(password, 10)
  
   // 3. Insert the user into the database or call an Auth Library's API
-  // const data = await db
-  //   .insert(users)
-  //   .values({
-  //     name,
-  //     email,
-  //     password: hashedPassword,
-  //   })
-  //   .returning({ id: users.id })
+  // const {data, error} = await signUpNewUser(email, password);
+  signUpNewUser(email, password);
+ 
  
   // const user = data[0]
  
