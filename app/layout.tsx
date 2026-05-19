@@ -40,7 +40,6 @@ export default async function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* TODO: insert header with links to sign up / sign in / sign out depending on session */}
       <body className="min-h-full flex flex-col">
         <UserHeader user={user}/>
         {children}
