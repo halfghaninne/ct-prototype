@@ -1,6 +1,8 @@
 import { type NextRequest } from 'next/server'
 import { updateSession } from '@/app/utils/supabase/proxy'
 
+// TODO confirm if being used
+
 export async function proxy(request: NextRequest) {
   return await updateSession(request)
 }

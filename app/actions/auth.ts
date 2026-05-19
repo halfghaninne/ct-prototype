@@ -16,23 +16,14 @@ const supabase = createClient(supabaseUrl!, supabaseKey!, {
   }
 })
 
-// ---cut---
 async function signUpNewUser(email:string, password:string) {
   await supabase.auth.signUp({
     email: email,
     password: password,
     options: {
-      emailRedirectTo: 'https://example.com/welcome',
+      // emailRedirectTo: 'https://example.com/welcome',
     },
   })
-  // const { data, error } = await supabase.auth.signUp({
-  //   email: email,
-  //   password: password,
-  //   options: {
-  //     emailRedirectTo: 'https://example.com/welcome',
-  //   },
-  // })
-  // return {data, error}
 }
 
 async function signInWithEmail(email: string, password: string) {
@@ -41,27 +32,15 @@ async function signInWithEmail(email: string, password: string) {
     password: password,
   })
   const { data: { user } } = await supabase.auth.getUser()
-
+  // TODO: error handling
   return user;
-  // console.log(error);
-  // console.log(user)
-  // const cookieStore = await cookies();
-  // if (user) {
-  //   cookieStore.set('user', user.id)
-  // }
-  // console.log('in route user from cookieStore is: ', cookieStore.get('user'))
-  // if (error) {
-  //   console.log(error);
-  // } else {
-  //   redirect('/testpage/');
-  // }
+  
 }
 
 export async function signin(state: FormState, formData: FormData) {
   const email = formData.get('email')?.toString() || '';
   const password = formData.get('password')?.toString() || '';
-  //TODO validation (follow example below)
-  //const hashedPassword = await bcrypt.hash(password, 10)
+  //TODO validation (follow example below in signup)
 
   const user = await signInWithEmail(email, password);
 
@@ -69,7 +48,6 @@ export async function signin(state: FormState, formData: FormData) {
   if (user) {
     cookieStore.set('user', user.id)
   }
-  console.log('in route action, user from cookieStore is: ', cookieStore.get('user'))
 
   redirect('/testpage/')
 }
@@ -90,14 +68,10 @@ export async function signup(state: FormState, formData: FormData) {
   }
  
   const { email, password } = validatedFields.data
-
- 
-  // 3. Insert the user into the database or call an Auth Library's API
-  // const {data, error} = await signUpNewUser(email, password);
   signUpNewUser(email, password);
  
   
-  // TODO redirect to signin with a message to confirm email
+  // TODO redirect with a message to confirm email
   redirect('/signin/');
 }
 
@@ -106,12 +80,11 @@ export async function signout() {
   const { error } = await supabase.auth.signOut({ scope: 'local' })
   console.log(error);
   const { data, error2 } = await supabase.auth.getSession();
-  console.log("session data: ", data) // expect to be null
+  // TODO error handling
+  //console.log("session data: ", data) // expect to be null
 
   const cookieStore = await cookies();
   cookieStore.delete('user');
-
-  console.log(cookieStore.get('user'))
 
   // redirect('/')
 }
