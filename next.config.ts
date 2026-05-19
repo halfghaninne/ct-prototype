@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
             key: 'user'
           }
         ],
-        permanent: false,
+        permanent: false, // TODO: understand this flag better
         destination: '/'
       }
     ]
