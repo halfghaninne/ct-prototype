@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from 'next/headers';
+
 import  UserHeader from './ui/UserHeader';
 import "./globals.css";
 
@@ -19,19 +21,30 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+  const cookieStore = await cookies();
+
+  let user = false;
+  if (cookieStore.get('user')?.value) {
+    user = true;
+  }
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <UserHeader/>
       {/* TODO: insert header with links to sign up / sign in / sign out depending on session */}
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <UserHeader user={user}/>
+        {children}
+      </body>
     </html>
   );
 }
