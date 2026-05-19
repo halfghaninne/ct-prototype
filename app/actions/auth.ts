@@ -1,6 +1,7 @@
 import { SignupFormSchema, FormState } from '@/app/lib/definitions'
-import bcrypt from 'bcryptjs'
 import { createClient } from '@supabase/supabase-js'
+import { redirect } from 'next/navigation'
+
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -30,9 +31,12 @@ async function signInWithEmail(email: string, password: string) {
     email: email,
     password: password,
   })
-
-  console.log({data});
-  console.log({error});
+  console.log(data);
+  if (error) {
+    console.log(error);
+  } else {
+    redirect('/instruments/');
+  }
 }
 
 export async function signin(state: FormState, formData: FormData) {
@@ -59,25 +63,14 @@ export async function signup(state: FormState, formData: FormData) {
     }
   }
  
-  // 2. Prepare data for insertion into database
   const { email, password } = validatedFields.data
-  // e.g. Hash the user's password before storing it
-  //const hashedPassword = await bcrypt.hash(password, 10)
+
  
   // 3. Insert the user into the database or call an Auth Library's API
   // const {data, error} = await signUpNewUser(email, password);
   signUpNewUser(email, password);
  
- 
-  // const user = data[0]
- 
-  // if (!user) {
-  //   return {
-  //     message: 'An error occurred while creating your account.',
-  //   }
-  // }
- 
-  // TODO:
-  // 4. Create user session
-  // 5. Redirect user
+  
+  // TODO redirect to signin with a message to confirm email
+  redirect('/signin/');
 }
