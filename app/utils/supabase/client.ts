@@ -1,10 +1,13 @@
 import { createBrowserClient } from "@supabase/ssr";
 
+// TODO confirm if being used
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-export const createClient = () =>
-  createBrowserClient(
+export const createClient = () => {
+  return createBrowserClient(
     supabaseUrl!,
     supabaseKey!,
-  );
+  )
+};

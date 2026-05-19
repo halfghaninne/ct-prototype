@@ -1,5 +1,56 @@
+'use server'
+
 import { SignupFormSchema, FormState } from '@/app/lib/definitions'
-import bcrypt from 'bcryptjs'
+import { createClient } from '@supabase/supabase-js'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+const supabase = createClient(supabaseUrl!, supabaseKey!, {
+  auth : { 
+    detectSessionInUrl: true,
+    flowType: 'pkce',
+  }
+})
+
+async function signUpNewUser(email:string, password:string) {
+  await supabase.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      // emailRedirectTo: 'https://example.com/welcome',
+    },
+  })
+}
+
+async function signInWithEmail(email: string, password: string) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  })
+  const { data: { user } } = await supabase.auth.getUser()
+  // TODO: error handling
+  return user;
+  
+}
+
+export async function signin(state: FormState, formData: FormData) {
+  const email = formData.get('email')?.toString() || '';
+  const password = formData.get('password')?.toString() || '';
+  //TODO validation (follow example below in signup)
+
+  const user = await signInWithEmail(email, password);
+
+  const cookieStore = await cookies();
+  if (user) {
+    cookieStore.set('user', user.id)
+  }
+
+  redirect('/testpage/')
+}
  
 export async function signup(state: FormState, formData: FormData) {
   // Validate form fields
@@ -16,30 +67,24 @@ export async function signup(state: FormState, formData: FormData) {
     }
   }
  
-  // 2. Prepare data for insertion into database
-  const { name, email, password } = validatedFields.data
-  // e.g. Hash the user's password before storing it
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const { email, password } = validatedFields.data
+  signUpNewUser(email, password);
  
-  // 3. Insert the user into the database or call an Auth Library's API
-  // const data = await db
-  //   .insert(users)
-  //   .values({
-  //     name,
-  //     email,
-  //     password: hashedPassword,
-  //   })
-  //   .returning({ id: users.id })
- 
-  // const user = data[0]
- 
-  // if (!user) {
-  //   return {
-  //     message: 'An error occurred while creating your account.',
-  //   }
-  // }
- 
-  // TODO:
-  // 4. Create user session
-  // 5. Redirect user
+  
+  // TODO redirect with a message to confirm email
+  redirect('/signin/');
+}
+
+export async function signout() {
+  console.log("signing out...")
+  const { error } = await supabase.auth.signOut({ scope: 'local' })
+  console.log(error);
+  const { data, error2 } = await supabase.auth.getSession();
+  // TODO error handling
+  //console.log("session data: ", data) // expect to be null
+
+  const cookieStore = await cookies();
+  cookieStore.delete('user');
+
+  // redirect('/')
 }
