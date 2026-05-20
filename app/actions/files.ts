@@ -24,12 +24,23 @@ async function getUploadURL() {
     const paramsObj = { bucketId: `${bbBucketId}`};
     const queryParams = new URLSearchParams(paramsObj);
 
+    // const bbBucketIdsRes = await fetch('https://api.backblazeb2.com/b2api/v4//b2api/v4/b2_list_buckets', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Authorization': authToken,
+    //     },
+    //     body: '{"accountId":  "887e97cc3bce", "bucketTypes": ["allPrivate","allPublic"]}'
+    // })
+
+    // const bucketIdsData = await bbBucketIdsRes.json();
+    // console.log(bucketIdsData)
+
 
 
     const bbUploadUrlRes = await fetch(`https://api.backblazeb2.com/b2api/v4/b2_get_upload_url?${queryParams.toString()}`, {
         headers: {
             'Authorization': authToken,
-        },
+        },  
     })
 
     const data = await bbUploadUrlRes.json();
