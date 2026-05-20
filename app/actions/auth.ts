@@ -37,7 +37,7 @@ async function signInWithEmail(email: string, password: string) {
   
 }
 
-export async function signin(state: FormState, formData: FormData) {
+export async function signin(state: void, formData: FormData) {
   const email = formData.get('email')?.toString() || '';
   const password = formData.get('password')?.toString() || '';
   //TODO validation (follow example below in signup)
