@@ -37,7 +37,7 @@ async function signInWithEmail(email: string, password: string) {
   
 }
 
-export async function signin(state: FormState, formData: FormData) {
+export async function signin(state: void, formData: FormData) {
   const email = formData.get('email')?.toString() || '';
   const password = formData.get('password')?.toString() || '';
   //TODO validation (follow example below in signup)
@@ -79,7 +79,7 @@ export async function signout() {
   console.log("signing out...")
   const { error } = await supabase.auth.signOut({ scope: 'local' })
   console.log(error);
-  const { data, error2 } = await supabase.auth.getSession();
+  const { data, error: error2 } = await supabase.auth.getSession();
   // TODO error handling
   //console.log("session data: ", data) // expect to be null
 
