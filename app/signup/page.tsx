@@ -33,7 +33,7 @@ export default function SignupForm() {
         <label htmlFor="email">Email</label>
         <input className={styles.input} id="email" name="email" placeholder="user@example.com" />
       </div>
-      {state?.errors?.email && <p>{state.errors.email}</p>}
+      {state?.errors?.email && <p style={{color: 'yellow'}}>{state.errors.email}</p>}
  
       <div>
         <label htmlFor="password">Password</label>
@@ -47,9 +47,9 @@ export default function SignupForm() {
         
       </div>
       {state?.errors?.password && (
-        <div>
+        <div style={{color: 'yellow'}}>
           <p>Password must:</p>
-          <ul style={{color: 'yellow'}}>
+          <ul>
             {state.errors.password.map((error) => (
               <li key={error}>- {error}</li>
             ))}
