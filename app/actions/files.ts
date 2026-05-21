@@ -2,7 +2,7 @@
 
 import { UploadFormState } from "../lib/definitions";
 import crypto from "node:crypto";
-import fs, { createReadStream } from "node:fs";
+import { sha1 } from "hash-wasm";
 import { redirect } from "next/navigation";
 
 const bbKeyId = process.env.BACKBLAZE_KEY_ID;
@@ -54,6 +54,9 @@ async function getUploadURL() {
 }
 
 async function postUpload(authToken: string, uploadUrl: string, file: any) { // TODO: more-specific file type
+    const checksum = await calculateCheckSum(file); 
+    console.log('checksum: ', checksum);
+
     const bbUploadUrlRes = await fetch(uploadUrl, {
         headers: {
             'Authorization': authToken,
@@ -64,36 +67,24 @@ async function postUpload(authToken: string, uploadUrl: string, file: any) { // 
             // 'Content-Length' - number of bytes in the file being uploaded
             'Content-Length': file.size.toString(),
             // 'X-Bz-Content-Sha1' - SHA1 checksum of content in the file. See: https://www.backblaze.com/docs/cloud-storage-upload-files-with-the-native-api#:~:text=Copy-,SHA1%20Checksums,-You%20must%20always
-            'X-Bz-Content-Sha1': await calculateCheckSum(file)
+            'X-Bz-Content-Sha1': checksum
         },  
     })
+
+    const { data, error } = await bbUploadUrlRes.json();
+    console.log(data);
 }
 
 async function calculateCheckSum(file: any) { // TODO: more-specific file type
-    const fileStream = file.stream();
-    const reader = fileStream.getReader();
-    console.log(typeof reader)
-   
-    const hash = crypto.createHash('sha1').digest('hex');
-
-    // fileStream.on('readable', () => {
-    //     const data = fileStream.read();
-    //     if (data) {
-    //         hash.update(data);
-    //     } else {
-    //         console.log()
-    //     }
-    // })
-    
-    // return....
+    const arrayBuffer = await file.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    return await sha1(uint8Array);
 }
 
 export async function fileUpload(formState: UploadFormState, formData: any) { // TODO: more-specific types
     const file = formData.get('file');
-    const checksum = await calculateCheckSum(file)
-    //console.log(checksum);
     
     const { authToken, uploadUrl } = await getUploadURL();
-    // postUpload(authToken, uploadUrl);
+    postUpload(authToken, uploadUrl, file);
     redirect('/upload')
 }
