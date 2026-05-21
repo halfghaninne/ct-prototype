@@ -1,8 +1,12 @@
 .center {
-    margin: 5% 10%;
+    margin: 5% auto;
     color: white;
 }
 
 .input {
     margin-left: 15px;
+}
+
+.image {
+    filter: brightness(0) invert(1);
 }

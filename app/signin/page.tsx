@@ -10,11 +10,12 @@ export default function SigninForm() {
   const [state, action, pending] = useActionState(signin, undefined)
   // let passInput = HTMLInputElement;
   // let image = HTMLImageElement;
-  if (typeof window !== 'undefined') {
-    const passInput = document.getElementById('password') as HTMLInputElement;
-    const image = document.getElementById('image') as HTMLImageElement;
+    const passInput = window?.document.getElementById('password') as HTMLInputElement;
+    const image = window?.document.getElementById('image') as HTMLImageElement;
 
-    function toggleImage() {
+  
+
+  function toggleImage() {
     if (passInput && image) {
       if (image.src.endsWith('/eye-show.svg')) {
         passInput.type = 'text';
@@ -25,8 +26,7 @@ export default function SigninForm() {
       }   
     }
   }
-  }
-  
+ 
   return (
     <form className={styles.center} action={action}>
       <div>
@@ -39,9 +39,10 @@ export default function SigninForm() {
         <label htmlFor="password">Password</label>
         <input className={styles.input} id="password" name="password" type="password" />
         <img
+          // className={styles.image}
           id="image"
           onClick={() => toggleImage()}
-          style={{color: 'white', height: '25px', display: 'inline-block'}}
+          style={{color: 'white', height: '25px', display: 'inline-block', filter: 'brightness(0) invert(1)'}}
           src="/eye-show.svg" 
         />
       </div>
