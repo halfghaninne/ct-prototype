@@ -86,5 +86,9 @@ export async function fileUpload(formState: UploadFormState, formData: any) { //
     
     const { authToken, uploadUrl } = await getUploadURL();
     postUpload(authToken, uploadUrl, file);
-    redirect('/upload')
+    // the 303status code is applicable to any HTTP method.  It is primarily used to allow the output of a POST action
+    // to redirect the user agent to a selected resource, since doing so provides the information corresponding
+    // to the POST response in a form that can be separately identified, bookmarked, and cached, independent of
+    // the original request.
+    // redirect('/upload')
 }
