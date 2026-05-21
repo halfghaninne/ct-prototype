@@ -39,7 +39,7 @@ body {
 }
 
 button{
-  position: absolute;
+  /* position: absolute; */
   border: 2px solid white;
   background: transparent;
   font-family: 'Roboto', sans-serif;
@@ -53,7 +53,7 @@ button{
   bottom: 0px;
   left: 0px;
   right: 0px;
-  margin: auto;
+  /* margin: auto; */
   transition: .3s;
 }
 
