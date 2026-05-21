@@ -2,12 +2,13 @@
 
 import { signup } from '@/app/actions/auth'
 import { useActionState } from 'react'
+import styles from "./ui.module.css"
 
 export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
  
   return (
-    <form action={action}>
+    <form className={styles.center} action={action}>
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" placeholder="Email" />

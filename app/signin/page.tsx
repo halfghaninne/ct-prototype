@@ -2,6 +2,7 @@
  
 import { signin } from '@/app/actions/auth'
 import { useActionState } from 'react'
+import styles from "./ui.module.css"
 
 
  
@@ -9,7 +10,7 @@ export default function SigninForm() {
   const [state, action, pending] = useActionState(signin, undefined)
  
   return (
-    <form action={action}>
+    <form className={styles.center} action={action}>
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" placeholder="Email" />

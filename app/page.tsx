@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
 
@@ -19,7 +20,10 @@ export default async function Home() {
       <p id='head3' className='header'>welcome to the communal translation prototype</p>
       {/* <p id='head4' className='header'>Welcome</p>
       <p id='head5' className='header'>Welcome to BA designs</p> */}
-      <button>learn more</button>
+      <Link className="button" href="about">
+        <button>learn more</button>
+      </Link>
+  
       <div className='light x1'></div>
       <div className='light x2'></div>
       <div className='light x3'></div>
