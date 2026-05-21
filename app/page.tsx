@@ -15,14 +15,15 @@ export default async function Home() {
     //   </main>
     // </div>
     <>
-      <p id='head1' className='header'>your community's words</p>
-      <p id='head2' className='header'>on <em>your</em> terms</p>
-      <p id='head3' className='header'>welcome to the communal translation prototype</p>
-      {/* <p id='head4' className='header'>Welcome</p>
-      <p id='head5' className='header'>Welcome to BA designs</p> */}
-      <Link className="button" href="about">
-        <button>learn more</button>
-      </Link>
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <p id='head1' className='header'>your community's words</p>
+        <p id='head2' className='header'>on <em>your</em> terms</p>
+        <p id='head3' className='header'>welcome to the communal translation prototype</p>
+        
+        <Link className="button" href="about">
+          <button>learn more</button>
+        </Link>
+      </div>
   
       <div className='light x1'></div>
       <div className='light x2'></div>
