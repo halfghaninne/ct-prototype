@@ -1,0 +1,5 @@
+.headerFlex {
+    margin: 0 5%;
+    display: flex;
+    justify-content: space-between;
+}
