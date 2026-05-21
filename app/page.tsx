@@ -20,8 +20,8 @@ export default async function Home() {
         <p id='head2' className='header'>on <em>your</em> terms</p>
         <p id='head3' className='header'>welcome to the communal translation prototype</p>
         
-        <Link className="button" href="about">
-          <button>learn more</button>
+        <Link href="about" style={{margin: 'auto'}}>
+          <button style={{position: 'relative'}}>learn more</button>
         </Link>
       </div>
   
