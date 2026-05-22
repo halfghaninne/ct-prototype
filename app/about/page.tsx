@@ -36,6 +36,7 @@ export default function About() {
                     <li><a href="https://www.backblaze.com/cloud-storage/security" target="_blank">Backblaze: Cloud Storage Built for Data Security</a></li>
                 </ol>
             </div>
+            <div style={{height: '150px'}}/>
         </div>
     )
 }
