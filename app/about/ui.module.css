@@ -1,3 +1,36 @@
 .center {
     margin: 5% 10%;
 }
+
+#about1, #about2, #about3 {
+    opacity: 0;
+}
+
+.aboutIntro {
+    font-style: italic;
+    font-size: larger;
+    /* position: absolute; */
+    /* opacity: 0; */
+}
+
+.paraSpacing {
+    p { 
+        margin: 20px 0px;
+    }
+}
+
+.about1 {
+    /* color: purple; */
+}
+
+.citations {
+    font-size: small;
+    opacity: 60%;
+    margin: 0 20%;
+    ol {
+        list-style: decimal;
+    }
+    a { 
+        text-decoration: underline;
+    }
+}
