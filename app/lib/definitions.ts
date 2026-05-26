@@ -12,6 +12,8 @@ export const SignupFormSchema = z.object({
     })
     .trim(),
 })
+
+export type UploadFormState = void | undefined
  
 export type FormState =
   | {
